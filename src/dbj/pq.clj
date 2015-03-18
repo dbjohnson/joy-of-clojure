@@ -70,9 +70,9 @@
                   (assert (apply <= (take n (pqseq (rand-pq n)))))))}
   [pq]
   (lazy-seq
-  (loop [pq pq]
-    (when pq
-      (cons (pqpeek pq) (pqseq (pqpop pq)))))))
+    (loop [pq pq]
+      (when pq
+        (cons (pqpeek pq) (pqseq (pqpop pq)))))))
 
 (defn rand-pq
   "Returns a randomly generated priority queue - for testing/exploration"

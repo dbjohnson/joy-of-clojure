@@ -1,5 +1,5 @@
-(load-file "dbj.clj")
-(refer 'dbj)
+(ns exercises.ch6-binary_tree
+  (:require [dbj.utils :refer :all]))
 
 (defn insert [tr val]
   (cond

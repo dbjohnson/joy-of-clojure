@@ -1,5 +1,5 @@
-(load-file "/Users/bryan/dropbox/code/joy-of-clojure/dbj.clj")
-(refer 'dbj)
+(ns exercises.ch6-qsort
+  (:require [dbj.utils :refer :all]))
 
 ;; book example for generating a random seqeuce
 (defn nom [n] (take n (repeatedly #(rand-int n))))

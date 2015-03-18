@@ -1,5 +1,5 @@
-(load-file "dbj.clj")
-(refer 'dbj)
+(ns exercises.ch5-collection-index
+  (:require [dbj.utils :refer :all]))
 
 (defn index [coll]
   (cond
