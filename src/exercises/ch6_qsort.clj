@@ -1,14 +1,15 @@
-(load-file "dbj.clj")
+(load-file "/Users/bryan/dropbox/code/joy-of-clojure/dbj.clj")
 (refer 'dbj)
 
 ;; book example for generating a random seqeuce
 (defn nom [n] (take n (repeatedly #(rand-int n))))
 
 ;; we can do better than that
-(defn rand-seq
-  "Returns lazy sequence drawn from (rand-int n)"
-  ([] (rand-seq 1000))
-  ([n] (lazy-seq (repeatedly #(rand-int n)))))
+; NOTE: moved into dbj.clj
+; (defn rand-seq
+;   "Returns lazy sequence drawn from (rand-int n)"
+;   ([] (rand-seq 1000))
+;   ([n] (lazy-seq (repeatedly #(rand-int n)))))
 
 
 (defn sort-parts
@@ -39,8 +40,10 @@
         (when-let [[x & parts] parts]
           (cons x (sort-parts parts)))))))
 
-(defn qsort [xvals]
+(defn qsort
+  {:test (fn [] (assert (apply <= (qsort (take 1000 (rand-seq))))))}
+  [xvals]
   (sort-parts (list xvals)))
 
 (prn-code (qsort (take 100 (rand-seq))))
-(prn-code (apply <= (qsort (take 1000 (rand-seq)))))
+(clojure.test/run-tests)
