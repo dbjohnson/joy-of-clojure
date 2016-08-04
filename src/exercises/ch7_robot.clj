@@ -36,6 +36,7 @@
             [(:y state) (:x state)]
             (:sprite (headings (:heading state))))
         m (assoc-in m [(:y (:goal w)) (:x (:goal w))] "x")]
+    (println "")
     (doseq [r m]
       (doseq [c r]
         (print (str (or ({0 " ", 1 "▢"} c) c) " ")))
@@ -90,7 +91,7 @@
 
 
 (defn- neighbors
-  "Return valid neighbors for pathent state.
+  "Return valid neighbors for current state.
    Does not return blocked positions."
   [w]
   (let [b (:bot w)
@@ -140,7 +141,9 @@
 
         (if (and (= (:x (:goal w)) (:x pos))
                  (= (:y (:goal w)) (:y pos)))
-          (prn-path path w)
+          (do
+            (prn-path path w)
+            (println cnt "total steps"))
           (let [pqrest  (pqpop pqpaths)
                 ; only accept steps that result in states we haven't been
                 ; in before
@@ -153,6 +156,9 @@
                                             (:heading pos)))))]
             (if (seq steps)
               (let [npaths  (map #(conj path %) steps)
+                    ; need to keep track of the best found cost for a given
+                    ; state, and don't bother adding new sub-paths to that
+                    ; state unless they are better
                     qnew    (reduce pqpush
                               (map #(path->node % w) npaths))]
                 (recur (pqpush qnew pqrest) best (inc cnt)))
@@ -163,14 +169,24 @@
               (could be legitimate, i.e., goal or bot boxed in)")
         (prn (:map w) (:coords (:bot w)))))))
 
-; Let 'er rip on a random map
-(def w (create-world 12))()
+;; Let 'er rip on a random map
+(def w (create-world 20))()
 (prn-world w)
-; Print the world definition in case the result is interesting and we want to
-; repeat it.
-; TODO: figure out how to set the random seed
-(prn
-  (:coords (:bot w))
-  (:goal w)
-  (:map w))
+;; Print the world definition in case the result is interesting and we want to
+;; repeat it.
+;; TODO: figure out how to set the random seed
+;(prn
+;  (:coords (:bot w))
+;  (:goal w)
+;  (:map w))
 (Astar w)
+
+;(def m
+;  [[0 0 0 0 0]
+;   [1 1 1 1 0]
+;   [0 0 0 0 0]
+;   [0 1 1 1 1]
+;   [0 0 0 0 0]])
+;(def w {:map m, :size 5, :goal {:x 4 :y 4}, :bot (bot 0 0)})
+;(prn-world w)
+;(Astar w)

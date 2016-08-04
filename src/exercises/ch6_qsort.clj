@@ -5,7 +5,7 @@
 (defn nom [n] (take n (repeatedly #(rand-int n))))
 
 ;; we can do better than that
-; NOTE: moved into dbj.clj
+; NOTE: moved into utils.clj
 ; (defn rand-seq
 ;   "Returns lazy sequence drawn from (rand-int n)"
 ;   ([] (rand-seq 1000))
@@ -44,6 +44,3 @@
   {:test (fn [] (assert (apply <= (qsort (take 1000 (rand-seq))))))}
   [xvals]
   (sort-parts (list xvals)))
-
-(prn-code (qsort (take 100 (rand-seq))))
-(clojure.test/run-tests)
